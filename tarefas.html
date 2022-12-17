@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>To-do List</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+
+  <section class="container">
+    <h1>Lista de tarefas</h1>
+  <p>
+      <input type="text" class="input-tarefa">
+      <button class="btn-tarefa">Adicionar nova tarefa</button>
+    </p>
+
+    <ul class="tarefas"></ul>
+  </section>
+
+  <section class="boards">
+    <div class="board" id="backlog">
+      <h3>To-do</h3>
+      <div class="dropzone tarefas">
+        <!-- <div class="card" draggable="true">
+          <div class="status green"></div>
+          <div class="content">Create todo</div>
+        </div> -->
+      </div>
+    </div>
+    <div class="board">
+      <h3>In Progress</h3>
+      <div class="dropzone">
+        <!-- <div class="card" draggable="true">
+          <div class="status red"></div>
+          <div class="content">Forum</div>
+        </div> -->
+      </div>
+    </div>
+    <div class="board">
+      <h3>Done</h3>
+      <div class="dropzone">
+        <!-- <div class="card" draggable="true">
+          <div class="status blue"></div>
+          <div class="content">Clock</div>
+        </div> -->
+      </div>
+    </div>
+  </section>
+
+  <script src="./assets/js/main.js"></script>
+</body>
+
+</html>
