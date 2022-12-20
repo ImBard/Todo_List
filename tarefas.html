@@ -17,23 +17,17 @@
       <input type="text" class="input-tarefa">
       <button class="btn-tarefa">Adicionar nova tarefa</button>
     </p>
-
-    <ul class="tarefas"></ul>
   </section>
 
   <section class="boards">
     <div class="board" id="backlog">
       <h3>To-do</h3>
-      <div class="dropzone tarefas">
-        <!-- <div class="card" draggable="true">
-          <div class="status green"></div>
-          <div class="content">Create todo</div>
-        </div> -->
+      <div class="dropzone" id="to-do">
       </div>
     </div>
     <div class="board">
       <h3>In Progress</h3>
-      <div class="dropzone">
+      <div class="dropzone" id="doing">
         <!-- <div class="card" draggable="true">
           <div class="status red"></div>
           <div class="content">Forum</div>
@@ -42,7 +36,7 @@
     </div>
     <div class="board">
       <h3>Done</h3>
-      <div class="dropzone">
+      <div class="dropzone" id="done">
         <!-- <div class="card" draggable="true">
           <div class="status blue"></div>
           <div class="content">Clock</div>

@@ -1,10 +1,14 @@
 const inputTarefa = document.querySelector('.input-tarefa');
 const btnTarefa = document.querySelector('.btn-tarefa');
 const tarefas = document.querySelector('.tarefas');
+const dropzones = document.querySelectorAll('.dropzone')
+let cards = document.querySelectorAll('.card')
 
-function criaCard() {
+
+function criaCard(zone) {
   const div = document.createElement('div');
   div.setAttribute('class', 'card')
+  div.setAttribute('id', zone)
   div.draggable = true
   const status = criaStatus()
   div.appendChild(status)
@@ -28,12 +32,19 @@ function limpaInput() {
   inputTarefa.focus();
 }
 
-function criaTarefa(txt) {
-  const card = criaCard();
+function criaTarefa(txt, zone) {
+  const card = criaCard(zone);
   const content = criaContent()
   content.innerHTML = txt
   card.appendChild(content)
-  tarefas.appendChild(card);
+
+  dropzones.forEach(dropzone => {
+    if (card.id == dropzone.id) {
+      dropzone.appendChild(card)
+    }
+  })
+
+  // tarefas.appendChild(card);
   limpaInput();
   criaBotaoApagar(card);
   salvarTarefas()
@@ -50,14 +61,14 @@ function criaBotaoApagar(li) {
 inputTarefa.addEventListener('keypress', (e) => {
   if (e.keyCode === 13) {
     if (!inputTarefa.value) return;
-    criaTarefa(inputTarefa.value);
+    criaTarefa(inputTarefa.value, "to-do");
   }
 })
 
 
 btnTarefa.addEventListener('click', (e) => {
   if (!inputTarefa.value) return;
-  criaTarefa(inputTarefa.value);
+  criaTarefa(inputTarefa.value, "to-do");
 })
 
 document.addEventListener('click', (e) => {
@@ -76,13 +87,15 @@ function salvarTarefas() {
     let tarefaTexto = li;
     let card = {
       status: tarefaTexto.children[0].classList.value,
-      content: tarefaTexto.children[1].innerHTML
+      content: tarefaTexto.children[1].innerHTML,
+      zone: li.id == "to-do" ? "to-do" : li.id
     }
     listaDeTarefas.push(card);
   }
 
   const tarefasJSON = JSON.stringify(listaDeTarefas);
   localStorage.setItem('tarefas', tarefasJSON);
+  card()
 }
 
 function adicionaTarefasSalvas() {
@@ -90,83 +103,81 @@ function adicionaTarefasSalvas() {
   const listaDeTarefas = JSON.parse(tarefas);
 
   for (let tarefa of listaDeTarefas) {
+    console.log(tarefa)
+    criaTarefa(tarefa.content, tarefa.zone);
+  }
+
+  drag_N_drop()
+}
+
+
+function drag_N_drop() {
+
+  cards.forEach(card => {
+    card.addEventListener('dragstart', dragstart)
+    card.addEventListener('drag', drag)
+    card.addEventListener('dragend', dragend)
+  })
+
+  function dragstart() {
+    //  this == card
+    dropzones.forEach(dropzone => dropzone.classList.add('highlight'))
+    this.classList.add('is-dragging')
+  }
+
+  function drag() {
+  }
+
+  function dragend() {
+    // this == card
+    console.log(this)
+    dropzones.forEach(dropzone => dropzone.classList.remove('highlight'))
+    this.classList.remove('is-dragging')
+  }
+
+  // Local onde sera solto os cartões
+
+  dropzones.forEach(dropzone => {
+    dropzone.addEventListener('dragenter', dragenter)
+    dropzone.addEventListener('dragover', dragover)
+    dropzone.addEventListener('dragleave', dragleave)
+    dropzone.addEventListener('drop', drop)
+  })
+
+  function dragenter() {
+  }
+
+  function dragover() {
+    //  this == dropzone
+    this.classList.add('over')
+
+    //  get draggin card
+    const cardBeingDragged = document.querySelector('.is-dragging')
+
+    cardBeingDragged.id = this.id
+    this.appendChild(cardBeingDragged)
+  }
+
+  function dragleave() {
+    //  this == dropzone
+    this.classList.remove('over')
+    salvarTarefas()
+    console.log("leave")
     
-    criaTarefa(tarefa.content);
+  }
+  
+  function drop() {
+    this.classList.remove('over')
+    console.log("drop")
   }
 }
 
 adicionaTarefasSalvas()
 
 
-
-
-
-const cards = document.querySelectorAll('.card')
-const dropzones = document.querySelectorAll('.dropzone')
-
-cards.forEach(card => {
-  card.addEventListener('dragstart', dragstart)
-  card.addEventListener('drag', drag)
-  card.addEventListener('dragend', dragend)
-})
-
-function dragstart() {
-  //  this == card
-  // console.log('> Card: start dragging')
-  dropzones.forEach(dropzone => dropzone.classList.add('highlight'))
-  this.classList.add('is-dragging')
+function card() {
+  cards = document.querySelectorAll('.card')
 }
-
-function drag() {
-  // console.log('> Card: is dragging')
-}
-
-function dragend() {
-  // this == card
-  // console.log('> Card: dragend')
-  dropzones.forEach(dropzone => dropzone.classList.remove('highlight'))
-  this.classList.remove('is-dragging')
-
-}
-
-// Local onde sera solto os cartões
-
-dropzones.forEach(dropzone => {
-  dropzone.addEventListener('dragenter', dragenter)
-  dropzone.addEventListener('dragover', dragover)
-  dropzone.addEventListener('dragleave', dragleave)
-  dropzone.addEventListener('drop', drop)
-})
-
-function dragenter() {
-  console.log('> Dropzone: Enter in zone')
-}
-
-function dragover() {
-  //  this == dropzone
-  console.log('> Dropzone: In zone')
-  this.classList.add('over')
-
-  //  get draggin card
-  const cardBeingDragged = document.querySelector('.is-dragging')
-  this.appendChild(cardBeingDragged)
-}
-
-function dragleave() {
-  //  this == dropzone
-  console.log('> Dropzone: Out zone')
-  this.classList.remove('over')
-
-}
-
-function drop() {
-  console.log('> Dropzone: Drop')
-  this.classList.remove('over')
-
-}
-
-
-
 
 
 
