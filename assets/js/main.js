@@ -82,17 +82,6 @@ btnTarefa.addEventListener('click', (e) => {
   drag_n_drop()
 })
 
-// console.log(btnApagar)
-
-// btnApagar.forEach(btn => {
-//   btn.addEventListener('click', (e) => {
-//     // const el = e.target;
-//     // if (el.classList.contains('apagar')) {
-//       
-//     // }
-//   })
-// })
-
 
 function apagarTarefa(e) {
   const click = e.target
