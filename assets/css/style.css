@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
 }
 
 html {
@@ -23,6 +26,10 @@ body {
   border: 1px solid #fd951f11;
   border-radius: 4px;
   margin: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  height: fit-content;
 }
 
 .board h3 {
@@ -31,6 +38,8 @@ body {
 }
 
 .dropzone {
+  display: flex;
+  flex-direction: column;
   padding: 16px;
   min-height: 200px;
   min-width: 282px;
@@ -40,7 +49,7 @@ body {
   padding: 16px;
   box-shadow: 0 2px 2px -1px #fd951fcc;
   width: 250px;
-  margin: 25px 0;
+  margin-top: 25px;
   border-radius: 4xp;
   font-weight: 600;
   font-size: 18px;
@@ -58,9 +67,11 @@ body {
 .status.blue {
   background-color: #33adff;
 }
+
 .status.red {
   background-color: red;
 }
+
 .status.green {
   background-color: #23d2ac;
 }
@@ -69,7 +80,8 @@ body {
   background-color: #fd951f08;
 }
 
-.card, .dropzone {
+.card,
+.dropzone {
   transition: 0.4s;
 }
 
@@ -80,4 +92,73 @@ body {
 
 .over {
   background-color: #4cd13711;
+}
+
+.notes {
+  width: 250px;
+  min-height: 400px;
+  margin: 16px;
+  background-color: #1a1a1c;
+  border: 1px solid #fd951f11;
+  resize: none;
+  outline: #fd951fcc;
+  color: white;
+  padding: 8px;
+  font-size: 18px;
+}
+
+.saveNote {
+  margin: 6px;
+  width: 250px;
+  align-self: center;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background-color: #fd951fcc;
+  color: white;
+  border: 1px solid #fd951f11;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.saveNote:hover {
+  background-color: #d47d19cc;
+}
+
+.saveNote:active {
+  background-color: #fd951fcc;
+}
+
+.disable {
+  background-color: #a36115cc;
+  color: gray;
+  margin: 6px;
+  width: 250px;
+  align-self: center;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #fd951f11;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+::root {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+::-webkit-scrollbar {
+  overflow: overlay;
+  width: 5px;
+
+}
+
+::-webkit-scrollbar-track {
+  display: initial;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #818791;
+  border-radius: 5px;
 }

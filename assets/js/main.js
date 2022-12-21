@@ -2,8 +2,15 @@ const inputTarefa = document.querySelector('.input-tarefa');
 const btnTarefa = document.querySelector('.btn-tarefa');
 const tarefas = document.querySelector('.tarefas');
 const dropzones = document.querySelectorAll('.dropzone')
-let cards = document.querySelectorAll('.card')
+const buttonNote = document.querySelector('.saveNote')
+const note = document.querySelector('.notes')
 
+if (buttonNote.disabled == true) {
+  buttonNote.classList.remove('saveNote')
+  buttonNote.classList.add("disable")
+} else {
+  buttonNote.classList.remove('disable')
+}
 
 function criaCard(zone) {
   const div = document.createElement('div');
@@ -43,8 +50,7 @@ function criaTarefa(txt, zone) {
       dropzone.appendChild(card)
     }
   })
-
-  // tarefas.appendChild(card);
+  // cards.push(card);
   limpaInput();
   criaBotaoApagar(card);
   salvarTarefas()
@@ -62,6 +68,7 @@ inputTarefa.addEventListener('keypress', (e) => {
   if (e.keyCode === 13) {
     if (!inputTarefa.value) return;
     criaTarefa(inputTarefa.value, "to-do");
+    drag_n_drop()
   }
 })
 
@@ -69,6 +76,7 @@ inputTarefa.addEventListener('keypress', (e) => {
 btnTarefa.addEventListener('click', (e) => {
   if (!inputTarefa.value) return;
   criaTarefa(inputTarefa.value, "to-do");
+  drag_n_drop()
 })
 
 document.addEventListener('click', (e) => {
@@ -95,7 +103,6 @@ function salvarTarefas() {
 
   const tarefasJSON = JSON.stringify(listaDeTarefas);
   localStorage.setItem('tarefas', tarefasJSON);
-  card()
 }
 
 function adicionaTarefasSalvas() {
@@ -103,16 +110,17 @@ function adicionaTarefasSalvas() {
   const listaDeTarefas = JSON.parse(tarefas);
 
   for (let tarefa of listaDeTarefas) {
-    console.log(tarefa)
     criaTarefa(tarefa.content, tarefa.zone);
   }
-
-  drag_N_drop()
+  drag_n_drop()
+  note.value = localStorage.getItem('notes')
 }
 
+adicionaTarefasSalvas()
 
-function drag_N_drop() {
+function drag_n_drop() {
 
+  const cards = document.querySelectorAll('.card')
   cards.forEach(card => {
     card.addEventListener('dragstart', dragstart)
     card.addEventListener('drag', drag)
@@ -130,13 +138,12 @@ function drag_N_drop() {
 
   function dragend() {
     // this == card
-    console.log(this)
     dropzones.forEach(dropzone => dropzone.classList.remove('highlight'))
     this.classList.remove('is-dragging')
+    salvarTarefas()
   }
 
   // Local onde sera solto os cartões
-
   dropzones.forEach(dropzone => {
     dropzone.addEventListener('dragenter', dragenter)
     dropzone.addEventListener('dragover', dragover)
@@ -153,34 +160,42 @@ function drag_N_drop() {
 
     //  get draggin card
     const cardBeingDragged = document.querySelector('.is-dragging')
-
     cardBeingDragged.id = this.id
     this.appendChild(cardBeingDragged)
+
   }
 
   function dragleave() {
     //  this == dropzone
     this.classList.remove('over')
-    salvarTarefas()
-    console.log("leave")
-    
+
   }
-  
+
   function drop() {
     this.classList.remove('over')
-    console.log("drop")
   }
 }
 
-adicionaTarefasSalvas()
-
-
-function card() {
-  cards = document.querySelectorAll('.card')
+const area = document.querySelector('.notes');
+if (area.addEventListener) {
+  area.addEventListener('input', () => {
+    buttonNote.classList.remove('disable')
+    buttonNote.classList.add('saveNote')
+    buttonNote.disabled = false
+  }, false);
+} else if (area.attachEvent) {
+  area.attachEvent('onpropertychange', () => {
+    buttonNote.classList.remove('disable')
+    buttonNote.classList.add('saveNote')
+    buttonNote.disabled = false
+  });
 }
 
-
-
+buttonNote.addEventListener('click', (e) => {
+  localStorage.setItem('notes', note.value)
+  buttonNote.classList.remove('saveNote')
+  buttonNote.classList.add("disable")
+})
 
 
 

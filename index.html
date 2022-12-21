@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Modelo</title>
+  <title>To-do List</title>
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
@@ -13,12 +13,41 @@
 
   <section class="container">
     <h1>Lista de tarefas</h1>
-    <p>
+  <p>
       <input type="text" class="input-tarefa">
       <button class="btn-tarefa">Adicionar nova tarefa</button>
     </p>
+  </section>
 
-    <ul class="tarefas"></ul>
+  <section class="boards">
+    <div class="board" id="backlog">
+      <h3>To-do</h3>
+      <div class="dropzone" id="to-do">
+      </div>
+    </div>
+    <div class="board">
+      <h3>In Progress</h3>
+      <div class="dropzone" id="doing">
+        <!-- <div class="card" draggable="true">
+          <div class="status red"></div>
+          <div class="content">Forum</div>
+        </div> -->
+      </div>
+    </div>
+    <div class="board">
+      <h3>Done</h3>
+      <div class="dropzone" id="done">
+        <!-- <div class="card" draggable="true">
+          <div class="status blue"></div>
+          <div class="content">Clock</div>
+        </div> -->
+      </div>
+    </div>
+    <div class="board">
+      <h3>Notes</h3>
+      <textarea class="notes" name="notes" id="notes"></textarea>
+      <button class="saveNote" disabled>Salvar</button>
+    </div>
   </section>
 
   <script src="./assets/js/main.js"></script>
