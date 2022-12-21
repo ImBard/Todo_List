@@ -18,7 +18,9 @@ function criaCard(zone) {
   div.setAttribute('id', zone)
   div.draggable = true
   const status = criaStatus()
+  const apagar = criaBotaoApagar()
   div.appendChild(status)
+  div.appendChild(apagar)
   return div;
 }
 
@@ -52,16 +54,17 @@ function criaTarefa(txt, zone) {
   })
   // cards.push(card);
   limpaInput();
-  criaBotaoApagar(card);
   salvarTarefas()
 }
 
-function criaBotaoApagar(li) {
-  li.innerHTML += " ";
+function criaBotaoApagar() {
   const botaoApagar = document.createElement('button');
-  botaoApagar.innerText = "Apagar";
+  const icon = document.createElement('img')
+  botaoApagar.appendChild(icon)
+  icon.src = "./assets/img/delete.png"
   botaoApagar.setAttribute('class', 'apagar');
-  li.appendChild(botaoApagar);
+  botaoApagar.setAttribute('onclick', 'apagarTarefa(event)');
+  return botaoApagar
 }
 
 inputTarefa.addEventListener('keypress', (e) => {
@@ -79,13 +82,29 @@ btnTarefa.addEventListener('click', (e) => {
   drag_n_drop()
 })
 
-document.addEventListener('click', (e) => {
-  const el = e.target;
-  if (el.classList.contains('apagar')) {
-    el.parentElement.remove();
-    salvarTarefas();
+// console.log(btnApagar)
+
+// btnApagar.forEach(btn => {
+//   btn.addEventListener('click', (e) => {
+//     // const el = e.target;
+//     // if (el.classList.contains('apagar')) {
+//       
+//     // }
+//   })
+// })
+
+
+function apagarTarefa(e) {
+  const click = e.target
+  if (e.path[1].classList == "card") {
+    console.log('card')
+    click.parentElement.remove()
+  } else if (e.path[2].classList == "card") {
+    click.parentElement.parentElement.remove()
   }
-})
+  salvarTarefas();
+}
+
 
 
 function salvarTarefas() {
@@ -95,7 +114,7 @@ function salvarTarefas() {
     let tarefaTexto = li;
     let card = {
       status: tarefaTexto.children[0].classList.value,
-      content: tarefaTexto.children[1].innerHTML,
+      content: tarefaTexto.children[2].innerHTML,
       zone: li.id == "to-do" ? "to-do" : li.id
     }
     listaDeTarefas.push(card);
