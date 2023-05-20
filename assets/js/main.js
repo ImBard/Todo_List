@@ -85,10 +85,9 @@ btnTarefa.addEventListener('click', (e) => {
 
 function apagarTarefa(e) {
   const click = e.target
-  if (e.path[1].classList == "card") {
-    console.log('card')
+  if (click.classList == "apagar") {
     click.parentElement.remove()
-  } else if (e.path[2].classList == "card") {
+  } else if (click.parentElement.classList == "apagar") {
     click.parentElement.parentElement.remove()
   }
   salvarTarefas();
